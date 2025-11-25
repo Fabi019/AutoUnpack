@@ -23,7 +23,7 @@ public:
         hDir(INVALID_HANDLE_VALUE),
         hThread(NULL)
     {
-        _tcscpy_s(directory, MAX_PATH - 1, directoryPath);
+        ExpandEnvironmentStrings(directoryPath, directory, MAX_PATH);    // Expand environment variables
         ZeroMemory(files, sizeof(files));
     }
 
