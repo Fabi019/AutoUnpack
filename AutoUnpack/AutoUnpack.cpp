@@ -121,12 +121,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
     for (auto* watcher : s_watcher) {
         if (watcher) {
             watcher->Stop();
-            delete watcher;
+            free(watcher);
         }
     }
 
     for (auto* ext : s_extensions) {
-        if (ext) delete ext;
+        if (ext) free(ext);
     }
 
     // Clean up and remove the tray icon
@@ -192,7 +192,6 @@ VOID OpenPopup(HWND hWnd)
 
     POINT pt;
     GetCursorPos(&pt);
-    SetForegroundWindow(hWnd);
 
     UINT cmd = TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_BOTTOMALIGN, pt.x, pt.y, 0, hWnd, NULL);
     switch (cmd) {
@@ -246,7 +245,7 @@ VOID InitSettings(BOOL createNew) {
         return;
     }
 
-    static TCHAR szValue[512];
+    TCHAR szValue[512];
 
     GetPrivateProfileString(szCategory, _T("WaitTimeMs"), szDefaultDelay, szValue, 8, s_settingsFile);
     s_waitMs = max(0, _tstoi(szValue));
@@ -354,7 +353,7 @@ VOID FileCallback(const TCHAR* folder, const TCHAR* fileName, const TCHAR* fullP
 BOOL UnpackFile(const TCHAR* folder, const TCHAR* fullPath)
 {
     // Unpack command
-    static TCHAR cmd[512] = { 0 };
+    TCHAR cmd[512];
     lstrcpyn(cmd, s_zipExe, MAX_PATH);
     lstrcat(cmd, _T(" x \""));
     lstrcat(cmd, fullPath);

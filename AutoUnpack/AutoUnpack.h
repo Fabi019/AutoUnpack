@@ -2,6 +2,11 @@
 
 #include "stdafx.h"
 
+int __stdcall wWinMainCRTStartup()
+{
+    return _tWinMain(GetModuleHandle(NULL), 0, 0, 0);
+}
+
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
     _In_ LPTSTR    lpCmdLine,

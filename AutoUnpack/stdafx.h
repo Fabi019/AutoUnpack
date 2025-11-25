@@ -22,6 +22,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #include "resource.h"
 
+#ifdef _DEBUG
 inline void DbgPrint(const TCHAR* fmt, ...)
 {
     static TCHAR buffer[256];
@@ -33,3 +34,6 @@ inline void DbgPrint(const TCHAR* fmt, ...)
 
     OutputDebugString(buffer);
 }
+#else
+inline void DbgPrint(const TCHAR* fmt, ...) {}
+#endif
